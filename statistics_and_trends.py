@@ -14,16 +14,15 @@ import pandas as pd
 import scipy.stats as ss
 import seaborn as sns
 
+
 def plot_relational_plot(df):
-    """
-    Plots a relational scatterplot between total_bill and tip.
-    """
     fig, ax = plt.subplots()
     sns.scatterplot(x='total_bill', y='tip', data=df, ax=ax)
     ax.set_title('Total Bill vs Tip (Relational Plot)')
     plt.savefig('relational_plot.png')
     plt.close(fig)
     return
+
 
 def plot_categorical_plot(df):
     """
@@ -36,10 +35,9 @@ def plot_categorical_plot(df):
     plt.close(fig)
     return
 
+
 def plot_statistical_plot(df):
-    """
-    Plots a histogram for total_bill.
-    """
+  
     fig, ax = plt.subplots()
     sns.histplot(df['total_bill'], bins=20, kde=True, ax=ax)
     ax.set_title('Distribution of Total Bill (Statistical Plot)')
@@ -47,28 +45,25 @@ def plot_statistical_plot(df):
     plt.close(fig)
     return
 
+
 def statistical_analysis(df, col: str):
-    """
-    Computes mean, standard deviation, skewness, and excess kurtosis for the given column.
-    """
+    
     mean = df[col].mean()
     stddev = df[col].std()
     skew = ss.skew(df[col], nan_policy='omit')
     excess_kurtosis = ss.kurtosis(df[col], nan_policy='omit')
     return mean, stddev, skew, excess_kurtosis
 
+
 def preprocessing(df):
-    """Preprocesses the dataset, provides quick stats and returns the cleaned dataframe."""
     print(df.head())
     print(df.describe())
     print(df.select_dtypes(include=[np.number]).corr())
-    # No complex cleaning needed for tips dataset, but placeholder for future.
     return df
 
+
 def writing(moments, col):
-    """
-    Prints the calculated statistics and interprets skew/kurtosis.
-    """
+    
     print(f'For the attribute {col}:')
     print(f'Mean = {moments[0]:.2f}, '
           f'Standard Deviation = {moments[1]:.2f}, '
@@ -77,21 +72,18 @@ def writing(moments, col):
 
     if abs(moments[2]) < 0.5:
         skewness_type = 'not skewed'
-    elif moments[2] > 0:
+    else moments[2] > 0:
         skewness_type = 'right skewed'
-    else:
-        skewness_type = 'left skewed'
 
     if moments[3] > 0.5:
         kurtosis_type = 'leptokurtic'
-    elif moments[3] < -0.5:
+    else moments[3] < -0.5:
         kurtosis_type = 'platykurtic'
-    else:
-        kurtosis_type = 'mesokurtic'
     return
 
+
 def main():
-    df = pd.read_csv('data.csv')
+    df = pd.read_csv('tip.csv')
     df = preprocessing(df)
     col = 'total_bill'  # Example analysis column from tips dataset
     plot_relational_plot(df)
@@ -100,7 +92,7 @@ def main():
     moments = statistical_analysis(df, col)
     writing(moments, col)
     return
-plt.show()
+
 
 if __name__ == '__main__':
     main()

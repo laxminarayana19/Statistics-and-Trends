@@ -59,11 +59,9 @@ def writing(moments, col):
 
     print(f"For the attribute '{col}':")
     print(
-    f"Mean = {mean:.2f}, Standard Deviation = {stddev:.2f}, "
-    f"Skewness = {skew:.2f}, and Excess Kurtosis = {excess_kurtosis:.2f}."
+        f"Mean = {mean:.2f}, Standard Deviation = {stddev:.2f}, "
+        f"Skewness = {skew:.2f}, and Excess Kurtosis = {excess_kurtosis:.2f}."
     )
-
-
     if abs(skew) < 0.5:
         skewness_type = 'approximately symmetric (not skewed)'
     elif skew > 0:

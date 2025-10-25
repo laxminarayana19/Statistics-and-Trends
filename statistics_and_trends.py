@@ -100,7 +100,6 @@ def main():
     moments = statistical_analysis(df, col)
     writing(moments, col)
     return
-plt.show()
 
 if __name__ == '__main__':
     main()

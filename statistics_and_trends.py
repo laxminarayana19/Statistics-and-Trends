@@ -1,12 +1,3 @@
-"""
-This is the template file for the statistics and trends assignment.
-You will be expected to complete all the sections and
-make this a fully working, documented file.
-You should NOT change any function, file or variable names,
-if they are given to you here.
-Make use of the functions presented in the lectures
-and ensure your code is PEP-8 compliant, including docstrings.
-"""
 from corner import corner
 import matplotlib.pyplot as plt
 import numpy as np
@@ -25,9 +16,6 @@ def plot_relational_plot(df):
 
 
 def plot_categorical_plot(df):
-    """
-    Plots a categorical boxplot for tip amount by day.
-    """
     fig, ax = plt.subplots()
     sns.boxplot(x='day', y='tip', data=df, ax=ax)
     ax.set_title('Tip Amount by Day (Categorical Plot)')
@@ -37,7 +25,6 @@ def plot_categorical_plot(df):
 
 
 def plot_statistical_plot(df):
-  
     fig, ax = plt.subplots()
     sns.histplot(df['total_bill'], bins=20, kde=True, ax=ax)
     ax.set_title('Distribution of Total Bill (Statistical Plot)')
@@ -47,7 +34,6 @@ def plot_statistical_plot(df):
 
 
 def statistical_analysis(df, col: str):
-    
     mean = df[col].mean()
     stddev = df[col].std()
     skew = ss.skew(df[col], nan_policy='omit')
@@ -56,36 +42,47 @@ def statistical_analysis(df, col: str):
 
 
 def preprocessing(df):
-    print(df.head())
-    print(df.describe())
-    print(df.select_dtypes(include=[np.number]).corr())
+    print("=== Head of Dataset ===")
+    print(df.head(), "\n")
+
+    print("=== Descriptive Statistics ===")
+    print(df.describe(), "\n")
+
+    print("=== Correlation Matrix ===")
+    print(df.select_dtypes(include=[np.number]).corr(), "\n")
+
     return df
 
 
 def writing(moments, col):
-    
-    print(f'For the attribute {col}:')
-    print(f'Mean = {moments[0]:.2f}, '
-          f'Standard Deviation = {moments[1]:.2f}, '
-          f'Skewness = {moments[2]:.2f}, and '
-          f'Excess Kurtosis = {moments[3]:.2f}.')
+    mean, stddev, skew, excess_kurtosis = moments
 
-    if abs(moments[2]) < 0.5:
-        skewness_type = 'not skewed'
-    else moments[2] > 0:
+    print(f"For the attribute '{col}':")
+    print(f"Mean = {mean:.2f}, Standard Deviation = {stddev:.2f}, "
+          f"Skewness = {skew:.2f}, and Excess Kurtosis = {excess_kurtosis:.2f}.")
+
+    if abs(skew) < 0.5:
+        skewness_type = 'approximately symmetric (not skewed)'
+    elif skew > 0:
         skewness_type = 'right skewed'
+    else:
+        skewness_type = 'left skewed'
 
-    if moments[3] > 0.5:
-        kurtosis_type = 'leptokurtic'
-    else moments[3] < -0.5:
-        kurtosis_type = 'platykurtic'
+    if excess_kurtosis > 0.5:
+        kurtosis_type = 'leptokurtic (heavy tails)'
+    elif excess_kurtosis < -0.5:
+        kurtosis_type = 'platykurtic (light tails)'
+    else:
+        kurtosis_type = 'mesokurtic (normal-like)'
+
+    print(f"The distribution is {skewness_type} and {kurtosis_type}.\n")
     return
 
 
 def main():
-    df = pd.read_csv('tip.csv')
+    df = pd.read_csv('data.csv')
     df = preprocessing(df)
-    col = 'total_bill'  # Example analysis column from tips dataset
+    col = 'total_bill'
     plot_relational_plot(df)
     plot_statistical_plot(df)
     plot_categorical_plot(df)

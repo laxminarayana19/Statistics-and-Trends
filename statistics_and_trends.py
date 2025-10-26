@@ -1,4 +1,4 @@
-# from corner import corner
+from corner import corner
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -58,10 +58,9 @@ def writing(moments, col):
     mean, stddev, skew, excess_kurtosis = moments
 
     print(f"For the attribute '{col}':")
-    print(
-        f"Mean = {mean:.2f}, Standard Deviation = {stddev:.2f}, "
-        f"Skewness = {skew:.2f}, and Excess Kurtosis = {excess_kurtosis:.2f}."
-    )
+    print(f"Mean = {mean:.2f}, Standard Deviation = {stddev:.2f}, "
+          f"Skewness = {skew:.2f}, and Excess Kurtosis = {excess_kurtosis:.2f}.")
+
     if abs(skew) < 0.5:
         skewness_type = 'approximately symmetric (not skewed)'
     elif skew > 0:
@@ -81,7 +80,7 @@ def writing(moments, col):
 
 
 def main():
-    df = pd.read_csv('data.csv')
+    df = pd.read_csv('tip.csv')
     df = preprocessing(df)
     col = 'total_bill'
     plot_relational_plot(df)

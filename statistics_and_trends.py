@@ -58,7 +58,8 @@ def writing(moments, col):
     mean, stddev, skew, excess_kurtosis = moments
     print(f"For the attribute '{col}':")
     print(f"Mean = {mean:.2f}, Standard Deviation = {stddev:.2f}, "
-      f"Skewness = {skew:.2f}, and Excess Kurtosis = {excess_kurtosis:.2f}.")
+f"Skewness = {skew:.2f}, and Excess Kurtosis = {excess_kurtosis:.2f}.")
+
 
 
     if abs(skew) < 0.5:

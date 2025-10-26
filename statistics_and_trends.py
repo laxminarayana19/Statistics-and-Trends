@@ -1,10 +1,8 @@
-# from corner import corner
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import scipy.stats as ss
 import seaborn as sns
-
 
 def plot_relational_plot(df):
     fig, ax = plt.subplots()
@@ -14,7 +12,6 @@ def plot_relational_plot(df):
     plt.close(fig)
     return
 
-
 def plot_categorical_plot(df):
     fig, ax = plt.subplots()
     sns.boxplot(x='day', y='tip', data=df, ax=ax)
@@ -22,7 +19,6 @@ def plot_categorical_plot(df):
     plt.savefig('categorical_plot.png')
     plt.close(fig)
     return
-
 
 def plot_statistical_plot(df):
     fig, ax = plt.subplots()
@@ -32,14 +28,12 @@ def plot_statistical_plot(df):
     plt.close(fig)
     return
 
-
 def statistical_analysis(df, col: str):
     mean = df[col].mean()
     stddev = df[col].std()
     skew = ss.skew(df[col], nan_policy='omit')
     excess_kurtosis = ss.kurtosis(df[col], nan_policy='omit')
     return mean, stddev, skew, excess_kurtosis
-
 
 def preprocessing(df):
     print("=== Head of Dataset ===")
@@ -53,14 +47,13 @@ def preprocessing(df):
 
     return df
 
-
 def writing(moments, col):
     mean, stddev, skew, excess_kurtosis = moments
     print(f"For the attribute '{col}':")
-    print(f"Mean = {mean:.2f}, Standard Deviation = {stddev:.2f}, "
-f"Skewness = {skew:.2f}, and Excess Kurtosis = {excess_kurtosis:.2f}.")
-
-
+    print(
+        f"Mean = {mean:.2f}, Standard Deviation = {stddev:.2f}, "
+        f"Skewness = {skew:.2f}, and Excess Kurtosis = {excess_kurtosis:.2f}."
+    )
 
     if abs(skew) < 0.5:
         skewness_type = 'approximately symmetric (not skewed)'
@@ -79,7 +72,6 @@ f"Skewness = {skew:.2f}, and Excess Kurtosis = {excess_kurtosis:.2f}.")
     print(f"The distribution is {skewness_type} and {kurtosis_type}.\n")
     return
 
-
 def main():
     df = pd.read_csv('data.csv')
     df = preprocessing(df)
@@ -90,7 +82,6 @@ def main():
     moments = statistical_analysis(df, col)
     writing(moments, col)
     return
-
 
 if __name__ == '__main__':
     main()

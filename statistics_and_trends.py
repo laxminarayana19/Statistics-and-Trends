@@ -80,7 +80,7 @@ def writing(moments, col):
 
 
 def main():
-    df = pd.read_csv('tip.csv')
+    df = pd.read_csv('data.csv')
     df = preprocessing(df)
     col = 'total_bill'
     plot_relational_plot(df)
